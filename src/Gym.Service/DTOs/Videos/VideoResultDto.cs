@@ -1,16 +1,16 @@
-using Gym.Domain.Commons;
+using Gym.Domain.Entities;
 
-namespace Gym.Domain.Entities;
+namespace Gym.Service.DTOs.Videos;
 
-public class Video : Auditable
+public class VideoResultDto
 {
+    public long Id { get; set; }
     public string Name { get; set; }
     public string Description { get; set; }
     public string Teacher { get; set; }
     
     public long CourseId { get; set; }
-    public Course Course { get; set; }
     
     public long AttachmentId { get; set; }
-    public Attachment Attachment { get; set; }
+    public Attachment Video { get; set; }
 }
