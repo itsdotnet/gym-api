@@ -14,12 +14,14 @@ public class UnitOfWork : IUnitOfWork
 
         UserRepository = new GRepository<User>(dbContext);
         VideoRepository = new GRepository<Video>(dbContext);
+        ImageRepository = new GRepository<Image>(dbContext);   
         CourseRepository = new GRepository<Course>(dbContext);
         AttachmentRepository = new GRepository<Attachment>(dbContext);
     }
 
     public IGRepository<User> UserRepository { get; }
     public IGRepository<Video> VideoRepository { get; }
+    public IGRepository<Image> ImageRepository { get; }
     public IGRepository<Course> CourseRepository { get; }
     public IGRepository<Attachment> AttachmentRepository { get; }
     

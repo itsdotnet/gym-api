@@ -7,6 +7,7 @@ public interface IUnitOfWork : IDisposable
 {
     IGRepository<User> UserRepository { get; }
     IGRepository<Video> VideoRepository { get; }
+    IGRepository<Image> ImageRepository { get; }
     IGRepository<Course> CourseRepository { get; }
     IGRepository<Attachment> AttachmentRepository { get; }
     Task<bool> SaveAsync();
