@@ -5,9 +5,10 @@ namespace Gym.Domain.Entities;
 
 public class User : Auditable
 {
-    public string Name { get; set; }
+    public string Firstname { get; set; }
+    public string Lastname { get; set; }
     public string Phone { get; set; }
-    public DateTime? DateOfBirth { get; set; }
-    public Gender Gender { get; set; }
+    public string Password { get; set; }
+    public bool IsPayed { get; set; }
     public UserRole Role { get; set; }
 }
