@@ -46,9 +46,9 @@ public class ImageService : IImageService
 
     public async Task<IEnumerable<ImageResultDto>> GetAllAsync()
     {
-        var users = (IEnumerable<User>)_unitOfWork.UserRepository.SelectAll(includes: new []{"Attachment"});
+        var images = (IEnumerable<Image>)_unitOfWork.ImageRepository.SelectAll(includes: new []{"Attachment"});
 
-        return _mapper.Map<IEnumerable<ImageResultDto>>(users);
+        return _mapper.Map<IEnumerable<ImageResultDto>>(images);
     }
 
     public async Task<ImageResultDto> CreateAsync(ImageCreationDto dto)
