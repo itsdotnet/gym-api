@@ -5,6 +5,7 @@ using Gym.Service.DTOs.Attachments;
 using Gym.Service.DTOs.Images;
 using Gym.Service.DTOs.Users;
 using Gym.Service.Exceptions;
+using Gym.Service.Helpers;
 using Gym.Service.Interfaces;
 
 namespace Gym.Service.Services;
@@ -57,8 +58,15 @@ public class ImageService : IImageService
             throw new ArgumentNullException();
         else
         {
-            image = await _attachmentService
-                .UploadAsync(new AttachmentCreationDto() { File = dto.Image });
+            if (Validator.IsImage(dto.Image.FileName))
+            {
+                image = await _attachmentService
+                    .UploadAsync(new AttachmentCreationDto() { File = dto.Image });
+            }
+            else
+            {
+                throw new CustomException(400, "This file is not image");
+            }
         }
 
         var newImage = _mapper.Map<Image>(dto);
@@ -71,18 +79,19 @@ public class ImageService : IImageService
 
     public async Task<ImageResultDto> UpdateAsync(ImageUpdateDto dto)
     {
+        var image = new Attachment();
         var exist = await _unitOfWork.ImageRepository.SelectAsync(d => d.Id == dto.Id);
     
         if (exist is null)
             throw new NotFoundException("Image not found");
         if (dto.Name == exist.Name && dto.Description == exist.Description)
-        {
             if(dto.Image is null)
                 throw new CustomException(400, "You changed nothing");
-        }
-        Attachment image = await _attachmentService.UploadAsync(new AttachmentCreationDto(){
-            File = dto.Image
-        });
+        if (Validator.IsImage(dto.Image.FileName))
+            image = await _attachmentService
+                .UploadAsync(new AttachmentCreationDto() { File = dto.Image });
+        else
+            throw new CustomException(400, "This file is not image");
         
         _mapper.Map(dto, exist);
         exist.AttachmentId = image.Id;
