@@ -12,5 +12,5 @@ public class VideoResultDto
     public long CourseId { get; set; }
     
     public long AttachmentId { get; set; }
-    public Attachment Video { get; set; }
+    public Attachment Attachment { get; set; }
 }
