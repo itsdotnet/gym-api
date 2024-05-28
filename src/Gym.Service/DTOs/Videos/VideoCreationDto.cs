@@ -10,5 +10,5 @@ public class VideoCreationDto
     public string Teacher { get; set; }
     
     public long CourseId { get; set; }
-    public IFormFile? ImagePath { get; set; }
+    public IFormFile? Video { get; set; }
 }
