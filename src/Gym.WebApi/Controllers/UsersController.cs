@@ -2,6 +2,7 @@ using Gym.Service.DTOs.Users;
 using Gym.Service.Helpers;
 using Gym.Service.Interfaces;
 using Gym.WebApi.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Gym.WebApi.Controllers;
@@ -38,7 +39,7 @@ public class UsersController : BaseController
     }
     
     [HttpPut("update")]
-    public async Task<IActionResult> PutAsync([FromForm]UserUpdateDto dto)
+    public async Task<IActionResult> PutAsync(UserUpdateDto dto)
     {
         var nameValid = Validator.IsValidName(dto.Firstname);
         var surnameValid = Validator.IsValidName(dto.Lastname);
@@ -76,6 +77,7 @@ public class UsersController : BaseController
             Data = await this.userService.GetByIdAsync(id)
         });
 
+    [Authorize(Roles = "Admin")] 
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllAsync()
         => Ok(new Response
@@ -85,6 +87,7 @@ public class UsersController : BaseController
             Data = await this.userService.GetAllAsync()
         });
 
+    [Authorize(Roles = "Admin")] 
     [HttpGet("get-name")]
     public async Task<IActionResult> GetByNameAsync(string name)
         => Ok(new Response
@@ -109,5 +112,29 @@ public class UsersController : BaseController
             });
 
         return BadRequest("Invalid new or old password");
+    }
+
+    [Authorize(Roles = "Admin")] 
+    [HttpPut("add-payment")]
+    public async Task<ActionResult> AddPayment(long id)
+    {
+        return Ok(new Response()
+        {
+            StatusCode = 200,
+            Message = "User payment added",
+            Data = await this.userService.PayAsync(id)
+        });
+    }
+    
+    [Authorize(Roles = "Admin")] 
+    [HttpPut("remove-payment")]
+    public async Task<ActionResult> RemovePayment(long id)
+    {
+        return Ok(new Response()
+        {
+            StatusCode = 200,
+            Message = "User payment removed",
+            Data = await this.userService.RemovePayAsync(id)
+        });
     }
 }
