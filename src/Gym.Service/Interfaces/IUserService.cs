@@ -5,6 +5,8 @@ namespace Gym.Service.Interfaces;
 public interface IUserService
 {
     Task<bool> DeleteAsync(long id);
+    Task<UserResultDto> PayAsync(long id);
+    Task<UserResultDto> RemovePayAsync(long id);
     Task<UserResultDto> GetByIdAsync(long id);
     Task<IEnumerable<UserResultDto>> GetAllAsync();
     Task<UserResultDto> UpdateAsync(UserUpdateDto dto);

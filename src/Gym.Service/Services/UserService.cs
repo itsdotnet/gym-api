@@ -30,6 +30,38 @@ public class UserService : IUserService
         return await _unitOfWork.SaveAsync();
     }
 
+    public async Task<UserResultDto> PayAsync(long id)
+    {
+        var exist = await _unitOfWork.UserRepository.SelectAsync(d => d.Id == id);
+    
+        if (exist is null)
+            throw new NotFoundException("User not found");
+        if (exist.IsPayed)
+            throw new CustomException(400, "This user is already payed");
+        exist.IsPayed = true;
+        
+        await _unitOfWork.UserRepository.UpdateAsync(exist);
+        await _unitOfWork.SaveAsync();
+
+        return _mapper.Map<UserResultDto>(exist);
+    }
+
+    public async Task<UserResultDto> RemovePayAsync(long id)
+    {
+        var exist = await _unitOfWork.UserRepository.SelectAsync(d => d.Id == id);
+    
+        if (exist is null)
+            throw new NotFoundException("User not found");
+        if (exist.IsPayed is false)
+            throw new CustomException(400, "This user not payed yet");
+        exist.IsPayed = false;
+        
+        await _unitOfWork.UserRepository.UpdateAsync(exist);
+        await _unitOfWork.SaveAsync();
+
+        return _mapper.Map<UserResultDto>(exist);
+    }
+
     public async Task<UserResultDto> GetByIdAsync(long id)
     {
         var user = await _unitOfWork.UserRepository.SelectAsync(q => q.Id == id, new []{"Attachment"});
@@ -48,8 +80,7 @@ public class UserService : IUserService
     }
 
     public async Task<UserResultDto> UpdateAsync(UserUpdateDto dto)
-    {
-        
+    {   
         var exist = await _unitOfWork.UserRepository.SelectAsync(d => d.Id == dto.Id);
     
         if (exist is null)
