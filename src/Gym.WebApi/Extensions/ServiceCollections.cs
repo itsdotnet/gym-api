@@ -22,11 +22,12 @@ public static class ServiceCollections
         services.AddScoped<IImageService, ImageService>();
         services.AddScoped<IUserService, UserService>();
         services.AddScoped<ITokenService, TokenService>();
+        services.AddScoped<IIdentityService, IdentityService>();
+        
         services.AddScoped(typeof(IGRepository<>), typeof(GRepository<>));
         services.AddAutoMapper(typeof(MappingProfile));
         services.AddMemoryCache();
-        services.AddControllersWithViews();
-        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
+        services.AddHttpContextAccessor();
     }
     
     
