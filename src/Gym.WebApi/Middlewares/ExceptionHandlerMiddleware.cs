@@ -55,7 +55,7 @@ public class ExceptionHandlerMiddleware
             await context.Response.WriteAsJsonAsync(new Response
             {
                 StatusCode = context.Response.StatusCode,
-                Message = ex.Message + ex.InnerException.Message,
+                Message = ex.InnerException.Message,
             });
         }
     }

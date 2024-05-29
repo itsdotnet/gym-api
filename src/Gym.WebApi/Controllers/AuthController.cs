@@ -39,8 +39,8 @@ public class AuthController : BaseController
     [AllowAnonymous]
     public async Task<IActionResult> RegisterAsync(UserCreationDto registerDto)
     {
-        var serviceResult = await authService.RegisterAsync(registerDto);
-        await authService.SendCodeForRegisterAsync($"{registerDto.Phone}");
+        await authService.RegisterAsync(registerDto);
+        var serviceResult = await authService.SendCodeForRegisterAsync($"{registerDto.Phone}");
         return Ok(new Response()
         {
             StatusCode = 200,

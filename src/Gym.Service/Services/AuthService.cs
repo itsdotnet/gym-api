@@ -21,11 +21,12 @@ public class AuthService : IAuthService
     private readonly ITokenService _tokenService;
     private readonly IUserService _userService;
 
-    public AuthService(IUnitOfWork unitOfWork, ITokenService tokenService, IUserService userService)
+    public AuthService(IUnitOfWork unitOfWork, ITokenService tokenService, IUserService userService, IMemoryCache memoryCache)
     {
         _unitOfWork = unitOfWork;
         _tokenService = tokenService;
         _userService = userService;
+        _memoryCache = memoryCache;
     }
     
     public async Task<string> LoginAsync(string phone, string password)
@@ -67,6 +68,7 @@ public class AuthService : IAuthService
         
         
             verificationDto.Code = CodeGenerator.GenerateRandomNumber();
+            verificationDto.Code = 0000; //delete this line
         
         
             if (_memoryCache.TryGetValue(VERIFY_REGISTER_CACHE_KEY + phone, out UserVerficationDto oldDto))
@@ -94,7 +96,7 @@ public class AuthService : IAuthService
 
     public async Task<(bool Result, string Token)> VerifyRegisterAsync(string phone, int code)
     {
-        if (_unitOfWork.UserRepository.SelectAsync(x => x.Phone == phone) is not null)
+        if (await _unitOfWork.UserRepository.SelectAsync(x => x.Phone == phone) is not null)
             throw new AlreadyExistException("This user already registered");
         if(_memoryCache.TryGetValue(REGISTER_CACHE_KEY + phone, out UserCreationDto dto))
         {

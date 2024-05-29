@@ -39,7 +39,7 @@ public class UsersController : BaseController
     }
     
     [HttpPut("update")]
-    public async Task<IActionResult> PutAsync(UserUpdateDto dto)
+    public async Task<IActionResult> UpdateAsync(UserUpdateDto dto)
     {
         var nameValid = Validator.IsValidName(dto.Firstname);
         var surnameValid = Validator.IsValidName(dto.Lastname);
@@ -98,7 +98,7 @@ public class UsersController : BaseController
         });
 
     [HttpPut("update-password")]
-    public async Task<IActionResult> ModifyPasswordAsync(long id, string oldPass, string newPass)
+    public async Task<IActionResult> UpdatePasswordAsync(long id, string oldPass, string newPass)
     {
         var oldPasswordValid = Validator.IsValidName(oldPass);
         var newPasswordValid = Validator.IsValidName(newPass);

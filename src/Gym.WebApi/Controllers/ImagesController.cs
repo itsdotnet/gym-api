@@ -1,5 +1,5 @@
 using Gym.Service.DTOs.Images;
-using Gym.Service.Services;
+using Gym.Service.Interfaces;
 using Gym.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +8,9 @@ namespace Gym.WebApi.Controllers;
 
 public class ImagesController : BaseController
 {
-    private readonly ImageService imageService;
+    private readonly IImageService imageService;
 
-    public ImagesController(ImageService imageService)
+    public ImagesController(IImageService imageService)
     {
         imageService = imageService;
     }

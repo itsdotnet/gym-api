@@ -25,7 +25,8 @@ public static class ServiceCollections
         services.AddScoped(typeof(IGRepository<>), typeof(GRepository<>));
         services.AddAutoMapper(typeof(MappingProfile));
         services.AddMemoryCache();
-        services.AddHttpContextAccessor();
+        services.AddControllersWithViews();
+        services.AddSingleton<IHttpContextAccessor, HttpContextAccessor>();
     }
     
     

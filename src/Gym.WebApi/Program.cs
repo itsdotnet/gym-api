@@ -4,7 +4,6 @@ using Gym.WebApi.Extensions;
 using Gym.WebApi.Middlewares;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.ApplicationModels;
-using ExceptionHandlerMiddleware = Microsoft.AspNetCore.Diagnostics.ExceptionHandlerMiddleware;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -53,4 +52,4 @@ app.UseAuthorization();
 
 app.MapControllers();
 
-app.Run();
+app.Run();  

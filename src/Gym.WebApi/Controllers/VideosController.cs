@@ -1,5 +1,5 @@
 using Gym.Service.DTOs.Videos;
-using Gym.Service.Services;
+using Gym.Service.Interfaces;
 using Gym.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -8,9 +8,9 @@ namespace Gym.WebApi.Controllers;
 
 public class VideosController : BaseController
 {
-    private readonly VideoService _videoService;
+    private readonly IVideoService _videoService;
 
-    public VideosController(VideoService videoService)
+    public VideosController(IVideoService videoService)
     {
         _videoService = videoService;
     }
