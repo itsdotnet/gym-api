@@ -31,9 +31,9 @@ public class AttachmentService : IAttachmentService
         return true;
     }
 
-    public async Task<Attachment> UploadAsync(AttachmentCreationDto dto)
+    public async Task<Attachment> UploadAsync(AttachmentCreationDto dto,string folder)
     {
-        var webrootPath = Path.Combine(PathHelper.WebRootPath, "pfp");
+        var webrootPath = Path.Combine(PathHelper.WebRootPath, folder);
 
         if (!Directory.Exists(webrootPath))
             Directory.CreateDirectory(webrootPath);

@@ -61,7 +61,7 @@ public class ImageService : IImageService
             if (Validator.IsImage(dto.Image.FileName))
             {
                 image = await _attachmentService
-                    .UploadAsync(new AttachmentCreationDto() { File = dto.Image });
+                    .UploadAsync(new AttachmentCreationDto() { File = dto.Image }, "images");
             }
             else
             {
@@ -89,7 +89,7 @@ public class ImageService : IImageService
                 throw new CustomException(400, "You changed nothing");
         if (Validator.IsImage(dto.Image.FileName))
             image = await _attachmentService
-                .UploadAsync(new AttachmentCreationDto() { File = dto.Image });
+                .UploadAsync(new AttachmentCreationDto() { File = dto.Image }, "images");
         else
             throw new CustomException(400, "This file is not image");
         

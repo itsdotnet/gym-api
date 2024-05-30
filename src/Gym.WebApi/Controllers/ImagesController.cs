@@ -8,11 +8,11 @@ namespace Gym.WebApi.Controllers;
 
 public class ImagesController : BaseController
 {
-    private readonly IImageService imageService;
+    private readonly IImageService _imageService;
 
     public ImagesController(IImageService imageService)
     {
-        imageService = imageService;
+        _imageService = imageService;
     }
 
     [Authorize(Roles = "Admin")]
@@ -22,7 +22,7 @@ public class ImagesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await imageService.DeleteAsync(id)
+            Data = await _imageService.DeleteAsync(id)
         });
 
     [HttpGet("get/{id:long}")]
@@ -31,7 +31,7 @@ public class ImagesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await imageService.GetByIdAsync(id)
+            Data = await _imageService.GetByIdAsync(id)
         });
 
     [HttpGet("get-all")]
@@ -40,7 +40,7 @@ public class ImagesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await imageService.GetAllAsync()
+            Data = await _imageService.GetAllAsync()
         });
 
     [Authorize(Roles = "Admin")]
@@ -50,7 +50,7 @@ public class ImagesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await imageService.CreateAsync(dto)
+            Data = await _imageService.CreateAsync(dto)
         });
 
     [Authorize(Roles = "Admin")]
@@ -60,6 +60,6 @@ public class ImagesController : BaseController
         {
             StatusCode = 200,
             Message = "Success",
-            Data = await imageService.UpdateAsync(dto)
+            Data = await _imageService.UpdateAsync(dto)
         });
 }

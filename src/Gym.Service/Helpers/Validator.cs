@@ -33,7 +33,7 @@ public static class Validator
     public static bool IsImage(string filePath)
     {
         string extension = Path.GetExtension(filePath);
-        if (extension is null)
+        if (extension is not null)
         {
             string ext = extension.ToLower();
             return ext == ".jpg" || ext == ".jpeg" || ext == ".png" || ext == ".gif" || ext == ".bmp" || ext == ".tiff";
@@ -44,7 +44,7 @@ public static class Validator
     public static bool IsVideo(string filePath)
     {
         string extension = Path.GetExtension(filePath);
-        if (extension is null)
+        if (extension is not null)
         {
             string ext = extension.ToLower();
             return ext == ".mp4" || ext == ".avi" || ext == ".mkv" || ext == ".mov" || ext == ".wmv" || ext == ".flv";

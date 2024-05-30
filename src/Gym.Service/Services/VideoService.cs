@@ -73,7 +73,7 @@ public class VideoService : IVideoService
             if (Validator.IsVideo(dto.Video.FileName))
             {
                 video = await _attachmentService
-                    .UploadAsync(new AttachmentCreationDto() { File = dto.Video });
+                    .UploadAsync(new AttachmentCreationDto() { File = dto.Video }, "videos");
             }
             else
             {
@@ -106,7 +106,7 @@ public class VideoService : IVideoService
         
         if (Validator.IsVideo(dto.Video.FileName))
             video = await _attachmentService
-                .UploadAsync(new AttachmentCreationDto() { File = dto.Video });
+                .UploadAsync(new AttachmentCreationDto() { File = dto.Video }, "videos");
         else
             throw new CustomException(400, "This file is not video");
         

@@ -24,10 +24,10 @@ public class TokenService : ITokenService
             new Claim("Id", user.Id.ToString()),
             new Claim("FirstName", user.Firstname),
             new Claim("LastName", user.Lastname),
-            new Claim("Role", user.Role.ToString()),
+            new Claim(ClaimTypes.Role, user.Role.ToString()),
             new Claim("Phone", user.Phone)
         };
-
+    
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_config["SecurityKey"]!));
         var keyCredentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 

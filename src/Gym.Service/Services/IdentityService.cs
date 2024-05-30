@@ -24,7 +24,8 @@ public class IdentityService : IIdentityService
 
     public async Task<string> CurrentRole()
     {
-        return _httpContextAccessor.HttpContext?.User.FindFirst("Role")?.Value;
+        return _httpContextAccessor.HttpContext?.User
+            .FindFirst("http://schemas.microsoft.com/ws/2008/06/identity/claims/role")?.Value;
     }
 
     public async Task<UserResultDto> CurrentUser()
