@@ -43,7 +43,7 @@ public class VideosController : BaseController
             Data = await _videoService.GetAllAsync()
         });
 
-    [HttpGet("get-by-course/{id:long}")]
+    [HttpGet("get-by-course")]
     public async Task<IActionResult> GetWithCourseIdAsync(long courseId)
         => Ok(new Response
         {
