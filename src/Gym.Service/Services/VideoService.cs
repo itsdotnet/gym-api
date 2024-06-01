@@ -54,7 +54,7 @@ public class VideoService : IVideoService
     public async Task<IEnumerable<VideoResultDto>> GetByCourseAsync(long courseId)
     {
         var videos = (IEnumerable<Video>)_unitOfWork.VideoRepository
-            .SelectAll(x => x.Id == courseId, includes: new []{"Attachment"});
+            .SelectAll(x => x.CourseId == courseId, includes: new []{"Attachment"});
 
         return _mapper.Map<IEnumerable<VideoResultDto>>(videos);
     }
