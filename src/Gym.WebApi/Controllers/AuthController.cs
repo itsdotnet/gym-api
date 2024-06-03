@@ -44,7 +44,7 @@ public class AuthController : BaseController
         return Ok(new Response()
         {
             StatusCode = 200,
-            Message = "User registered successfully",
+            Message = "Code sent successfully",
             Data = serviceResult
         });
     }
