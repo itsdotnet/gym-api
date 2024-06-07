@@ -64,7 +64,7 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> GetByIdAsync(long id)
     {
-        var user = await _unitOfWork.UserRepository.SelectAsync(q => q.Id == id, new []{"Attachment"});
+        var user = await _unitOfWork.UserRepository.SelectAsync(q => q.Id == id);
 
         if (user is null)
             throw new NotFoundException("User not found");
@@ -74,7 +74,7 @@ public class UserService : IUserService
 
     public async Task<IEnumerable<UserResultDto>> GetAllAsync()
     {
-        var users = (IEnumerable<User>)_unitOfWork.UserRepository.SelectAll(includes: new []{"Attachment"});
+        var users = (IEnumerable<User>)_unitOfWork.UserRepository.SelectAll();
 
         return _mapper.Map<IEnumerable<UserResultDto>>(users);
     }
