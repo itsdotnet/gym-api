@@ -38,7 +38,13 @@ public class AttachmentService : IAttachmentService
         if (!Directory.Exists(webrootPath))
             Directory.CreateDirectory(webrootPath);
 
-        var fileName = MediaHelper.MakeImageName(dto.File.FileName);
+        var fileName = "";
+
+        if (folder == "videos")
+            fileName = MediaHelper.MakeVideoName(dto.File.FileName);    
+        else
+            fileName = MediaHelper.MakeImageName(dto.File.FileName);
+        
         var fullPath = Path.Combine(webrootPath, fileName);
 
         var fileStream = new FileStream(fullPath, FileMode.OpenOrCreate);
