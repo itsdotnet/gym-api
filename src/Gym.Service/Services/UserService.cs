@@ -81,6 +81,10 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> UpdateAsync(UserUpdateDto dto)
     {   
+        if (!Validator.IsValidPhoneNumber(dto.Phone) || !Validator.IsValidName(dto.Firstname) ||
+            !Validator.IsValidName(dto.Lastname))
+            throw new CustomException(401, "Invalid informations");
+        
         var exist = await _unitOfWork.UserRepository.SelectAsync(d => d.Id == dto.Id);
     
         if (exist is null)
@@ -98,6 +102,10 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> CreateAsync(UserCreationDto dto)
     {
+        if (!Validator.IsValidPhoneNumber(dto.Phone) || !Validator.IsValidName(dto.Firstname) ||
+            !Validator.IsValidName(dto.Lastname))
+            throw new CustomException(401, "Invalid informations");
+        
         var exist = await _unitOfWork.UserRepository.SelectAsync(q => q.Phone == dto.Phone);
 
         if (exist is not null)
@@ -122,14 +130,20 @@ public class UserService : IUserService
 
     public async Task<UserResultDto> UpdatePasswordAsync(long id, string oldPass, string newPass)
     {
+        if(oldPass == newPass)
+            throw new CustomException(403, "Password cant be equal to old password");
+            
         var exist = await _unitOfWork.UserRepository.SelectAsync(q => q.Id == id);
 
         if (exist is null)
             throw new NotFoundException("User not found");
 
         if (oldPass.Verify(exist.Password))
-            throw new CustomException(403, "Passwor is invalid");
-
+            throw new CustomException(403, "Password is invalid");
+        
+        if (!Validator.IsValidPhoneNumber(newPass))
+            throw new CustomException(401, "New password is too weak");
+        
         exist.Password = newPass.Hash();
         await _unitOfWork.SaveAsync();
 

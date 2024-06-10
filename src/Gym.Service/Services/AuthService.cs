@@ -44,6 +44,11 @@ public class AuthService : IAuthService
 
     public async Task<(bool Result, int CashedMinutes)> RegisterAsync(UserCreationDto registerDto)
     {
+
+        if (!Validator.IsValidPhoneNumber(registerDto.Phone) || !Validator.IsValidName(registerDto.Firstname) ||
+            !Validator.IsValidName(registerDto.Lastname) || !Validator.IsValidPassword(registerDto.Password))
+            throw new CustomException(401, "Invalid informations");
+            
         var user = await _unitOfWork.UserRepository.SelectAsync(x => x.Phone.Equals(registerDto.Phone));
         if (user is not null) throw new AlreadyExistException("User is already exist with this number");
         

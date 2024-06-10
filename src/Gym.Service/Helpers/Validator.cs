@@ -10,6 +10,7 @@ public static class Validator
     private const string UsernameRegex = @"^[a-zA-Z0-9_]{3,15}$";
     private const string EmailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,25}$";
     private const string PasswordRegex = @"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9]).{8,}$";
+    private const string UzbekPhoneNumberRegex = @"^\+998\d{9}$";
 
     public static bool IsValidText(string text) =>
         !string.IsNullOrEmpty(text) && Regex.IsMatch(text, TextRegex);
@@ -29,6 +30,8 @@ public static class Validator
     public static bool IsValidDescription(string description) =>
         !string.IsNullOrEmpty(description) && Regex.IsMatch(description, DescriptionRegex);
 
+    public static bool IsValidPhoneNumber(string phoneNumber) =>
+        !string.IsNullOrWhiteSpace(phoneNumber) && Regex.IsMatch(phoneNumber, UzbekPhoneNumberRegex);
     
     public static bool IsImage(string filePath)
     {
