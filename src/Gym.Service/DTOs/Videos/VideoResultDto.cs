@@ -2,6 +2,7 @@ using Gym.Domain.Entities;
 
 namespace Gym.Service.DTOs.Videos;
 
+
 public class VideoResultDto
 {
     public long Id { get; set; }
