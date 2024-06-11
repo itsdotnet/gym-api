@@ -99,20 +99,12 @@ public class UsersController : BaseController
 
     [HttpPut("update-password")]
     public async Task<IActionResult> UpdatePasswordAsync(long id, string oldPass, string newPass)
-    {
-        var oldPasswordValid = Validator.IsValidName(oldPass);
-        var newPasswordValid = Validator.IsValidName(newPass);
-
-        if (oldPasswordValid && newPasswordValid)
-            return Ok(new Response
+        => Ok(new Response
             {
                 StatusCode = 200,
                 Message = "Success",
                 Data = await this.userService.UpdatePasswordAsync(id, oldPass, newPass)
             });
-
-        return BadRequest("Invalid new or old password");
-    }
 
     [Authorize(Roles = "Admin")] 
     [HttpPut("add-payment")]
