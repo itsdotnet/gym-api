@@ -138,7 +138,7 @@ public class UserService : IUserService
         if (exist is null)
             throw new NotFoundException("User not found");
 
-        if (oldPass.Verify(exist.Password))
+        if (PasswordHasher.Verify(oldPass, exist.Password))
             throw new CustomException(401, "Password is invalid");
         
         if (!Validator.IsValidPhoneNumber(newPass))
