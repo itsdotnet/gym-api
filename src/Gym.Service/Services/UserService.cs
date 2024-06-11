@@ -131,7 +131,7 @@ public class UserService : IUserService
     public async Task<UserResultDto> UpdatePasswordAsync(long id, string oldPass, string newPass)
     {
         if(oldPass == newPass)
-            throw new CustomException(403, "Password cant be equal to old password");
+            throw new CustomException(400, "Password cant be equal to old password");
             
         var exist = await _unitOfWork.UserRepository.SelectAsync(q => q.Id == id);
 
@@ -139,10 +139,10 @@ public class UserService : IUserService
             throw new NotFoundException("User not found");
 
         if (oldPass.Verify(exist.Password))
-            throw new CustomException(403, "Password is invalid");
+            throw new CustomException(401, "Password is invalid");
         
         if (!Validator.IsValidPhoneNumber(newPass))
-            throw new CustomException(401, "New password is too weak");
+            throw new CustomException(400, "New password is too weak");
         
         exist.Password = newPass.Hash();
         await _unitOfWork.SaveAsync();
