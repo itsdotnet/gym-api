@@ -9,7 +9,6 @@ public static class Validator
     private const string NameRegex = @"^[A-Za-z ]{2,20}$";
     private const string UsernameRegex = @"^[a-zA-Z0-9_]{3,15}$";
     private const string EmailRegex = @"^[\w-\.]+@([\w-]+\.)+[\w-]{2,25}$";
-    private const string PasswordRegex = @"^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{8,}$";
     private const string UzbekPhoneNumberRegex = @"^\+998\d{9}$";
 
     public static bool IsValidText(string text) =>
@@ -22,7 +21,7 @@ public static class Validator
         !string.IsNullOrWhiteSpace(email) && Regex.IsMatch(email, EmailRegex);
 
     public static bool IsValidPassword(string password) =>
-        !string.IsNullOrWhiteSpace(password) && Regex.IsMatch(password, PasswordRegex);
+        !string.IsNullOrWhiteSpace(password) && password.Length > 7;
 
     public static bool IsValidUsername(string username) =>
         !string.IsNullOrEmpty(username) && Regex.IsMatch(username, UsernameRegex);
