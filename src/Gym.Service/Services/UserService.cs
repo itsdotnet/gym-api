@@ -139,9 +139,9 @@ public class UserService : IUserService
             throw new NotFoundException("User not found");
 
         if (PasswordHasher.Verify(oldPass, exist.Password))
-            throw new CustomException(401, "Password is invalid");
+            throw new CustomException(401, $"Password {oldPass} is invalid");
         
-        if (!Validator.IsValidPhoneNumber(newPass))
+        if (!Validator.IsValidPassword(newPass))
             throw new CustomException(400, "New password is too weak");
         
         exist.Password = newPass.Hash();
