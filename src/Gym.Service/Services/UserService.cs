@@ -110,9 +110,8 @@ public class UserService : IUserService
 
         if (exist is not null)
             throw new AlreadyExistException("User already exist with this Email");
-        
+        dto.Password = PasswordHasher.Hash(dto.Password);        
         var newUser = _mapper.Map<User>(dto);
-        newUser.Password = PasswordHasher.Hash(newUser.Password);
         await _unitOfWork.UserRepository.AddAsync(newUser);
         await _unitOfWork.SaveAsync();
 
@@ -138,7 +137,8 @@ public class UserService : IUserService
         if (exist is null)
             throw new NotFoundException("User not found");
 
-        if (PasswordHasher.Verify(oldPass, exist.Password))
+        var isCorrect = PasswordHasher.Verify(oldPass, exist.Password);
+        if(!isCorrect)    
             throw new CustomException(401, $"Password {oldPass} is invalid");
         
         if (!Validator.IsValidPassword(newPass))

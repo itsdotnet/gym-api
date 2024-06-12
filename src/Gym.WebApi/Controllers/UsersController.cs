@@ -1,6 +1,7 @@
 using Gym.Service.DTOs.Users;
 using Gym.Service.Helpers;
 using Gym.Service.Interfaces;
+using Gym.Service.Services;
 using Gym.WebApi.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -10,10 +11,12 @@ namespace Gym.WebApi.Controllers;
 public class UsersController : BaseController
 {
     private readonly IUserService userService;
+    private readonly IIdentityService identityService;
 
-    public UsersController(IUserService userService)
+    public UsersController(IUserService userService, IIdentityService identityService)
     {
         this.userService = userService;
+        this.identityService = identityService;
     }
     
     [HttpPost("create")]
@@ -98,12 +101,12 @@ public class UsersController : BaseController
         });
 
     [HttpPut("update-password")]
-    public async Task<IActionResult> UpdatePasswordAsync(long id, string oldPass, string newPass)
+    public async Task<IActionResult> UpdatePasswordAsync(string oldPass, string newPass)
         => Ok(new Response
             {
                 StatusCode = 200,
                 Message = "Success",
-                Data = await this.userService.UpdatePasswordAsync(id, oldPass, newPass)
+                Data = await this.userService.UpdatePasswordAsync((await identityService.CurrentUser()).Id, oldPass, newPass)
             });
 
     [Authorize(Roles = "Admin")] 
