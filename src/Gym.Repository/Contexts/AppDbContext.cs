@@ -13,4 +13,10 @@ public class AppDbContext : DbContext
     public DbSet<Image> Images { get; set; }
     public DbSet<Course> Courses { get; set; }
     public DbSet<Attachment> Attachments { get; set; }
+
+    protected override void OnModelCreating(DbModelBuilder modelBuilder)
+    {
+            modelBuilder.Entity<Course>().Property(m => m.AttachmentId).IsOptional();            
+            base.OnModelCreating(modelBuilder);
+    }
 }
