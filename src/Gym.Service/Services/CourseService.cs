@@ -96,9 +96,9 @@ public class CourseService : ICourseService
                     .UploadAsync(new AttachmentCreationDto() { File = dto.Image }, "images");
             else
                 throw new CustomException(400, "This file is not image");
+            existingCourse.AttachmentId = image.Id;
         }
         _mapper.Map(dto, existingCourse);
-        existingCourse.AttachmentId = image.Id;
         await _unitOfWork.CourseRepository.UpdateAsync(existingCourse);
         await _unitOfWork.SaveAsync();
 

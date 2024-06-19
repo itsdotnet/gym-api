@@ -84,17 +84,19 @@ public class ImageService : IImageService
     
         if (exist is null)
             throw new NotFoundException("Image not found");
-        if (dto.Name == exist.Name && dto.Description == exist.Description)
+        if (dto.Name == exist.Name && dto.Description == exist.Description && dto.Image is null)
             if(dto.Image is null)
                 throw new CustomException(400, "You changed nothing");
-        if (Validator.IsImage(dto.Image.FileName))
-            image = await _attachmentService
-                .UploadAsync(new AttachmentCreationDto() { File = dto.Image }, "images");
-        else
-            throw new CustomException(400, "This file is not image");
-        
+        if(dto.Image is null)
+        {
+            if (Validator.IsImage(dto.Image.FileName))
+                image = await _attachmentService
+                    .UploadAsync(new AttachmentCreationDto() { File = dto.Image }, "images");
+            else
+                throw new CustomException(400, "This file is not image");
+            exist.AttachmentId = image.Id;
+        }
         _mapper.Map(dto, exist);
-        exist.AttachmentId = image.Id;
 
         await _unitOfWork.ImageRepository.UpdateAsync(exist);
         await _unitOfWork.SaveAsync();

@@ -100,18 +100,23 @@ public class VideoService : IVideoService
 
         if (exist is null)
             throw new NotFoundException("Video not found");
-        if (dto.Name == exist.Name && dto.Description == exist.Description && dto.CourseId == exist.CourseId)
+        if (dto.Name == exist.Name && dto.Description == exist.Description &&
+            dto.CourseId == exist.CourseId && dto.Video is null)
             if(dto.Video is null)
                 throw new CustomException(400, "You changed nothing");
         
-        if (Validator.IsVideo(dto.Video.FileName))
-            video = await _attachmentService
-                .UploadAsync(new AttachmentCreationDto() { File = dto.Video }, "videos");
-        else
-            throw new CustomException(400, "This file is not video");
+        if(dto.Video is not null)
+        {
+
+            if (Validator.IsVideo(dto.Video.FileName))
+                video = await _attachmentService
+                    .UploadAsync(new AttachmentCreationDto() { File = dto.Video }, "videos");
+            else
+                throw new CustomException(400, "This file is not video");
+            exist.AttachmentId = video.Id;
+        } 
         
         _mapper.Map(dto, exist);
-        exist.AttachmentId = video.Id;
 
         await _unitOfWork.VideoRepository.UpdateAsync(exist);
         await _unitOfWork.SaveAsync();
