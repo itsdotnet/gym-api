@@ -33,7 +33,8 @@ public class CoursesController : BaseController
             Message = "Success",
             Data = await _courseService.GetByIdAsync(id)
         });
-
+    
+    [AllowAnonymous]
     [HttpGet("get-all")]
     public async Task<IActionResult> GetAllAsync()
         => Ok(new Response
