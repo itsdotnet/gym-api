@@ -40,12 +40,13 @@ public class AuthController : BaseController
     public async Task<IActionResult> RegisterAsync(UserCreationDto registerDto)
     {
         await authService.RegisterAsync(registerDto);
-        var serviceResult = await authService.SendCodeForRegisterAsync($"{registerDto.Phone}");
+        await authService.SendCodeForRegisterAsync($"{registerDto.Phone}");
+        var serviceResult = await authService.VerifyRegisterAsync(registerDto.Phone, 0000);
         return Ok(new Response()
         {
             StatusCode = 200,
-            Message = "Code sent successfully",
-            Data = serviceResult
+            Message = "Registrated successfully",
+            Data = serviceResult.Token
         });
     }
     
